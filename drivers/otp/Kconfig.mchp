@@ -1,0 +1,13 @@
+# Copyright (c) 2026 Microchip Technologies Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+config OTP_STM32_NVM
+	bool "Microchip NVM OTP driver"
+	default y
+	depends on DT_HAS_MICROCHIP_NVM_G1_OTP_ENABLED
+	depends on DT_HAS_MICROCHIP_NVM_G1_OTP_ENABLED
+	help
+	  Enable driver for OTP regions inside embedded non-volatile memory
+	  found in STM32 SoCs.
+
+	  N.B.: the "program" operation is currently not supported.

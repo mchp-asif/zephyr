@@ -220,10 +220,11 @@
 			};
 
 			userrow: nvmuserrow@804000 {
-				compatible = "soc-nv-flash";
+				compatible = "microchip,nvm-g1-otp";
 				reg = <0x00804000 0x200>;
 				write-block-size = <8>;
 				erase-block-size = <512>;
+				status = "okay";
 			};
 
 			nvm_sw_calib_area: nvm_sw_calib_area@800080 {
