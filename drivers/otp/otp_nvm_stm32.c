@@ -19,7 +19,7 @@
 #include <zephyr/toolchain.h>
 
 #define DT_DRV_COMPAT st_stm32_nvm_otp
-
+typedef struct nvmem_cell calib_info_t;
 struct otp_stm32_nvm_config {
 	/* Base address and size of OTP area */
 	const uint8_t *base;

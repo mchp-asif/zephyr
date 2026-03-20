@@ -14,13 +14,16 @@ description: |
 
 compatible: "microchip,nvm-g1-otp"
 
-include: base.yaml
+include: [base.yaml, nvmem-consumer.yaml]
 
 properties:
   reg:
-    required: true
+    # required: true
     description: |
       Start address and size of NVM OTP area
 
       Note: for User OTP area nodes, "locking bits" that may be found at the end
       of the OTP area must not be included in the `size` part of this property.
+
+  read-only:
+    type: boolean

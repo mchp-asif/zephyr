@@ -72,7 +72,7 @@ static void slow_otp_readout(void *buf, const uint8_t *src, size_t len)
 
 static int mchp_nvm_read(const struct device *dev, off_t offset, void *buf, size_t len)
 {
-	const struct otp_stm32_nvm_config *config = dev->config;
+	const struct otp_mchp_nvm_config *config = dev->config;
 	const size_t start = (size_t)offset;
 	size_t end;
 

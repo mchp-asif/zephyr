@@ -7,9 +7,11 @@
 #include <stdio.h>
 #include <zephyr/kernel.h>
 #include <zephyr/drivers/gpio.h>
+#include <zephyr/drivers/otp.h>
+#include <zephyr/nvmem.h>
 
 /* 1000 msec = 1 sec */
-#define SLEEP_TIME_MS   1000
+#define SLEEP_TIME_MS 1000
 
 /* The devicetree node identifier for the "led0" alias. */
 #define LED0_NODE DT_ALIAS(led0)
@@ -19,30 +21,34 @@
  * See the sample documentation for information on how to fix this.
  */
 static const struct gpio_dt_spec led = GPIO_DT_SPEC_GET(LED0_NODE, gpios);
-
+static const struct nvmem_cell user_row = NVMEM_CELL_GET_BY_NAME(DT_NODELABEL(otp), user_row);
 int main(void)
 {
-	int ret;
-	bool led_state = true;
+	// int ret;
+	// bool led_state = true;
 
-	if (!gpio_is_ready_dt(&led)) {
-		return 0;
-	}
+	// if (!gpio_is_ready_dt(&led)) {
+	// 	return 0;
+	// }
 
-	ret = gpio_pin_configure_dt(&led, GPIO_OUTPUT_ACTIVE);
-	if (ret < 0) {
-		return 0;
-	}
+	// ret = gpio_pin_configure_dt(&led, GPIO_OUTPUT_ACTIVE);
+	// if (ret < 0) {
+	// 	return 0;
+	// }
 
-	while (1) {
-		ret = gpio_pin_toggle_dt(&led);
-		if (ret < 0) {
-			return 0;
-		}
+	// while (1) {
+	// 	ret = gpio_pin_toggle_dt(&led);
+	// 	if (ret < 0) {
+	// 		return 0;
+	// 	}
 
-		led_state = !led_state;
-		printf("LED state: %s\n", led_state ? "ON" : "OFF");
-		k_msleep(SLEEP_TIME_MS);
-	}
+	// 	led_state = !led_state;
+	// 	printf("LED state: %s\n", led_state ? "ON" : "OFF");
+	// 	k_msleep(SLEEP_TIME_MS);
+	// }
+	uint8_t buf[20] = {0};
+	int len = 4;
+	int off = 0;
+	otp_read(user_row.dev, user_row.offset + off, buf, len);
 	return 0;
 }
