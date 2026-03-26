@@ -204,7 +204,7 @@
 
 		nvmctrl: nvmctrl@41004000 {
 			compatible = "microchip,nvmctrl-g1-flash";
-			status = "disabled";
+			status = "okay";
 			reg = <0x41004000 0x30>;
 			interrupts = <29 0>, <30 0>;
 			clocks = <&mclkperiph CLOCK_MCHP_MCLKPERIPH_ID_APBB_NVMCTRL>;
@@ -221,37 +221,48 @@
 
 
 			userrow: nvmuserrow@804000 {
+				compatible = "soc-nv-flash";
 				reg = <0x00804000 0x200>;
 				write-block-size = <8>;
 				erase-block-size = <512>;
+				nvmem-layout {
+					compatible = "fixed-layout";
+					#address-cells = <1>;
+					#size-cells = <1>;
+
+					userrow0: nvmuserrow0@804000 {
+						reg = <0x00804000 0x200>;
+						#nvmem-cell-cells = <0>;
+						read-only;
+					};
+				};
 			};
 
-		nvm_sw_calib_area: nvm_sw_calib_area@800080 {
+			nvm_sw_calib_area: nvm_sw_calib_area@800080 {
 				reg = <0x00800080 0x8>;
 			};
 
+
+
 		};
 
-		flash_asif: flash_asif{
-			nvmem-layout {
-				compatible = "fixed-layout";
-				#address-cells = <1>;
-				#size-cells = <1>;
-				status = "okay";
+		// flash_asif: flash_asif{
+		// 	status = "okay";
 
-				userrow0: nvmuserrow0@804000 {
-					reg = <0x00804000 0x200>;
-					#nvmem-cell-cells = <0>;
-					read-only;
-				};
-			};
-		};
-		otp:otp@804000{
-			compatible = "microchip,nvm-g1-otp";
-			reg = <0x00804000 0x200>;
+		// };
+		test_consumer0: test-consumer0 {
+			compatible = "vnd,nvmem-consumer";
 			nvmem-cells = <&userrow0>;
 			nvmem-cell-names = "user-row";
 			status = "okay";
+		};
+
+		otp:otp@804000{
+			compatible = "microchip,nvm-g1-otp";
+			reg = <0x00804000 0x200>;
+
+			status = "okay";
+
 
 		};
 
