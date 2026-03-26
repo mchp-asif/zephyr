@@ -229,7 +229,7 @@
 					#size-cells = <1>;
 
 					userrow0: nvmuserrow0@804000 {
-						reg = <0x00804000 0x200>;
+						reg = <0x0 0x200>;
 						#nvmem-cell-cells = <0>;
 						read-only;
 					};

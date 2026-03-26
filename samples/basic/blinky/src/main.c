@@ -21,7 +21,8 @@
  * See the sample documentation for information on how to fix this.
  */
 // static const struct gpio_dt_spec led = GPIO_DT_SPEC_GET(LED0_NODE, gpios);
-static const struct nvmem_cell user_row = NVMEM_CELL_GET_BY_NAME(DT_NODELABEL(test_consumer0), user_row);
+static const struct nvmem_cell user_row =
+	NVMEM_CELL_GET_BY_NAME(DT_NODELABEL(test_consumer0), user_row);
 int main(void)
 {
 	// int ret;
@@ -50,5 +51,8 @@ int main(void)
 	int len = 4;
 	int off = 0;
 	otp_read(user_row.dev, user_row.offset + off, buf, len);
+	for (int i = 0; i < 4; i++) {
+		printf("0x%x\t", buf[i]);
+	}
 	return 0;
 }
