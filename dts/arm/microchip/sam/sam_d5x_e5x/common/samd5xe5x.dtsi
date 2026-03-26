@@ -218,10 +218,8 @@
 				write-block-size = <8>;
 				erase-block-size = <8192>;
 			};
-
-
 			userrow: nvmuserrow@804000 {
-				compatible = "soc-nv-flash";
+				compatible = "soc-nv-flash", "microchip,nvm-g1-otp";
 				reg = <0x00804000 0x200>;
 				write-block-size = <8>;
 				erase-block-size = <512>;
@@ -257,14 +255,14 @@
 			status = "okay";
 		};
 
-		otp:otp@804000{
-			compatible = "microchip,nvm-g1-otp";
-			reg = <0x00804000 0x200>;
+		// otp:otp@804000{
+		// 	compatible = "microchip,nvm-g1-otp";
+		// 	reg = <0x00804000 0x200>;
 
-			status = "okay";
+		// 	status = "okay";
 
 
-		};
+		// };
 
 		pinctrl: pinctrl@41008000 {
 			compatible = "microchip,port-g1-pinctrl";

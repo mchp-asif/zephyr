@@ -120,7 +120,7 @@ static DEVICE_API(otp, otp_mchp_nvm_api) = {
 		.size = DT_INST_REG_SIZE(inst),                                                    \
 	};                                                                                         \
                                                                                                    \
-	DEVICE_DT_INST_DEFINE(inst, NULL, NULL, NULL, &_cfg, PRE_KERNEL_1,                         \
+	DEVICE_DT_INST_DEFINE(inst, NULL, NULL, NULL, &_cfg, POST_KERNEL,                          \
 			      CONFIG_OTP_INIT_PRIORITY, &otp_mchp_nvm_api);
 
 #define OTP_STM32_NVM_INIT(inst) OTP_STM32_NVM_INIT_INNER(inst, CONCAT(otp_mchp_nvm_cfg, inst))
