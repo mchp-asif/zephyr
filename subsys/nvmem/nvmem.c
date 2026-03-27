@@ -67,7 +67,7 @@ int nvmem_cell_write(const struct nvmem_cell *cell, const void *buf, off_t off, 
 		return eeprom_write(cell->dev, cell->offset + off, buf, len);
 	}
 
-	if (IS_ENABLED(CONFIG_NVMEM_FLASH_WRITE) && DEVICE_API_IS(flash, cell->dev)) {
+	if (IS_ENABLED(	) && DEVICE_API_IS(flash, cell->dev)) {
 		return flash_write(cell->dev, cell->offset + off, buf, len);
 	}
 

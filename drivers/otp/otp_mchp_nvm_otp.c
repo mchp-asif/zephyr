@@ -17,7 +17,8 @@
 #include <zephyr/sys/math_extras.h>
 #include <zephyr/sys/util.h>
 #include <zephyr/toolchain.h>
-
+#include <zephyr/drivers/flash.h>
+#include <zephyr/drivers/flash/mchp_flash.h>
 #define DT_DRV_COMPAT microchip_nvm_g1_otp
 
 struct otp_mchp_nvm_config {
@@ -110,8 +111,84 @@ static int mchp_nvm_read(const struct device *dev, off_t offset, void *buf, size
 	return 0;
 }
 
+#define NVMCTRL_USERROW_PAGESIZE      (512U)
+#define NVMCTRL_USERROW_START_ADDRESS (0x00804000U)
+uint8_t read_array_userpage[NVMCTRL_USERROW_PAGESIZE];
+uint8_t write_array_userpage[NVMCTRL_USERROW_PAGESIZE];
+uint8_t wr_userpage_defaultvalues[16] = {0x39, 0x92, 0x9a, 0xfe,
+					 0x80, 0xff, 0xa8, 0xaa,
+					 0xff, 0xff, 0xff, 0xff,
+					0xff, 0xff, 0xff, 0xff};
+
+void populate_buffer(uint8_t *data, uint32_t size)
+{
+	int i = 0;
+
+	for (i = 0; i < size; i++) {
+		*(data + i) = i;
+	}
+}
+//read complete bytes to local something
+//update required fields based on devicetree entries?
+//erase teh complete page (512 bytes)
+//write back the contents
+static int mchp_nvm_write(const struct device *dev, off_t offset, const void *buf, size_t len)
+{
+	const struct otp_mchp_nvm_config *config = dev->config;
+	const struct device *nvmctrl_dev = DEVICE_DT_GET(DT_NODELABEL(nvmctrl));
+	{
+		printf("flash_userpage_erase\n");
+
+		uint16_t code = FLASH_EX_OP_USER_ROW_ERASE;
+		uint8_t out;
+		uint8_t in;
+
+		populate_buffer(read_array_userpage, sizeof(read_array_userpage));
+
+		memcpy(read_array_userpage, (uint8_t *)NVMCTRL_USERROW_START_ADDRESS,
+		       NVMCTRL_USERROW_PAGESIZE);
+
+		for (int i = 0; i < NVMCTRL_USERROW_PAGESIZE; i++) {
+			printf("UserPage_Memory[0x%X] 0x%x ", i + (NVMCTRL_USERROW_START_ADDRESS),
+			       read_array_userpage[i]);
+		}
+
+		int ret = flash_ex_op(nvmctrl_dev, code, (const uintptr_t)&in, &out);
+		printf("flash_ex_op ret val :  %d\n", ret);
+
+		memcpy(read_array_userpage, (uint8_t *)NVMCTRL_USERROW_START_ADDRESS,
+		       NVMCTRL_USERROW_PAGESIZE);
+
+		for (int i = 0; i < NVMCTRL_USERROW_PAGESIZE; i++) {
+			printf("UserPage_Memory[0x%X] 0x%x ", i + (NVMCTRL_USERROW_START_ADDRESS),
+			       read_array_userpage[i]);
+		}
+	}
+
+	uint16_t code = FLASH_EX_OP_USER_ROW_WRITE;
+	uint8_t out;
+	struct flash_mchp_ex_op_userrow_data up_in = {
+		.data = wr_userpage_defaultvalues, .data_len = 16, .offset = 0};
+
+	populate_buffer(write_array_userpage, sizeof(write_array_userpage));
+
+	int ret = flash_ex_op(nvmctrl_dev, code, (const uintptr_t)&up_in, &out);
+	printf("flash_ex_op ret val :  %d\n", ret);
+
+	memcpy(read_array_userpage, (uint8_t *)NVMCTRL_USERROW_START_ADDRESS,
+	       NVMCTRL_USERROW_PAGESIZE);
+
+	for (int i = 0; i < NVMCTRL_USERROW_PAGESIZE; i++) {
+		printf("UserPage_Memory[0x%X] 0x%x \n", i + (NVMCTRL_USERROW_START_ADDRESS),
+		       read_array_userpage[i]);
+	}
+
+	return 0;
+}
+
 static DEVICE_API(otp, otp_mchp_nvm_api) = {
 	.read = mchp_nvm_read,
+	.program = mchp_nvm_write,
 };
 
 #define OTP_STM32_NVM_INIT_INNER(inst, _cfg)                                                       \

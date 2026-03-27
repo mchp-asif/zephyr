@@ -54,5 +54,13 @@ int main(void)
 	for (int i = 0; i < 4; i++) {
 		printf("0x%x\t", buf[i]);
 	}
+
+	buf[0] = 0x94;
+	otp_program(user_row.dev, user_row.offset + off, buf, 1);
+
+	otp_read(user_row.dev, user_row.offset + off, buf, len);
+	for (int i = 0; i < 4; i++) {
+		printf("\n0x%x\t", buf[i]);
+	}
 	return 0;
 }

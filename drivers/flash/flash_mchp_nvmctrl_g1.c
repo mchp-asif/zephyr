@@ -456,6 +456,7 @@ static int flash_quadword_write(const struct device *dev, const void *data, uint
 	ret = flash_get_interrupt_status_error(dev);
 
 	return ret;
+
 }
 
 /**
