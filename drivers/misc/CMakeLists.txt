@@ -5,6 +5,8 @@ add_subdirectory_ifdef(CONFIG_DEVMUX devmux)
 add_subdirectory_ifdef(CONFIG_ETHOS_U ethos_u)
 add_subdirectory_ifdef(CONFIG_FT800 ft8xx)
 add_subdirectory_ifdef(CONFIG_GROVE_LCD_RGB grove_lcd_rgb)
+add_subdirectory_ifdef(CONFIG_MCHP_FUSEBIT_PROGRAMMER mchp_fusebit_programmer)
+
 add_subdirectory_ifdef(CONFIG_MCUX_FLEXIO mcux_flexio)
 add_subdirectory_ifdef(CONFIG_MISC_MAX2221X max2221x)
 add_subdirectory_ifdef(CONFIG_NORDIC_VPR_LAUNCHER nordic_vpr_launcher)

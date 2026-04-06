@@ -1,0 +1,7 @@
+# Copyright (c) 2026 Microhip Technology inc
+# SPDX-License-Identifier: Apache-2.0
+
+config MCHP_FUSEBIT_PROGRAMMER
+	bool
+	default y if DT_HAS_MICROCHIP_FUSEBIT_PROGRAMMER_ENABLED
+
