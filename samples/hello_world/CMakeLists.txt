@@ -7,4 +7,4 @@ project(hello_world)
 
 target_sources(app PRIVATE src/main.c)
 
-zephyr_linker_sources(SECTIONS linker.ld)
+# zephyr_linker_sources(SECTIONS linker.ld)

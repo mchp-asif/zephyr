@@ -220,10 +220,9 @@
 			};
 			userrow: nvmuserrow@804000 {
 				compatible = "soc-nv-flash";//, "microchip,nvm-g1-otp";
-				reg = <0x00804000 0x200>;
+				reg = <0x00804000 0xf>;
 				write-block-size = <8>;
 				erase-block-size = <512>;
-
 				nvmem-layout {
 					compatible = "fixed-layout";
 					#address-cells = <1>;
@@ -281,6 +280,8 @@
 
 
 		// };
+
+		//tobeuncommented
 		userpage_config: userpage_config {
 			compatible = "microchip,fusebit-programmer";
 			memory-region = <&userrow>;

@@ -12,3 +12,4 @@ properties:
     type: phandle
     required: true
     description: phandle to shared memory region
+

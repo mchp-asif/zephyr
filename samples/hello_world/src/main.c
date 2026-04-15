@@ -3,10 +3,10 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-__attribute__((section(".userpage")))
-const unsigned char user_nvm_data[256] = {
-    0xDE, 0xAD, 0xBE, 0xEF
-};
+// __attribute__((section(".userpage")))
+// const unsigned char user_nvm_data[256] = {
+//     0xDE, 0xAD, 0xBE, 0xEF
+// };
 
 #include <stdio.h>
 
