@@ -6,4 +6,4 @@ zephyr_library()
 zephyr_library_sources(fuse_prg.c)
 
 
-zephyr_linker_sources(SECTIONS userpage.ld)
+# zephyr_linker_sources(SECTIONS userpage.ld)

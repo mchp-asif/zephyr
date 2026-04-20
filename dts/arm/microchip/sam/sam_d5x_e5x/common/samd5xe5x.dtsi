@@ -220,10 +220,13 @@
 			};
 
 			userrow: nvmuserrow@804000 {
-				compatible = "soc-nv-flash";
+				// compatible = "soc-nv-flash","zephyr,memory-region";
+				compatible = "zephyr,memory-region";
 				reg = <0x00804000 0x200>;
-				write-block-size = <8>;
-				erase-block-size = <512>;
+				zephyr,memory-region = "USER_ROW";
+				zephyr,memory-attr = <DT_MEM_NON_VOLATILE>;
+				// write-block-size = <8>;
+				// erase-block-size = <512>;
 			};
 
 			nvm_sw_calib_area: nvm_sw_calib_area@800080 {
