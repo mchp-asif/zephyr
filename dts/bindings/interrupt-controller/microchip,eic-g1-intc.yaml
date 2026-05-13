@@ -49,12 +49,33 @@ properties:
       Each bit in the property denotes a pin number. This shows the pins which
       do not support interrupt for portc.
 
+  portc-supported-pins:
+    type: int
+    default: 0
+    description: |
+      Each bit in the property denotes a pin number. This shows the pins which
+      support interrupt in portc
+
   portd-supported-pins:
     type: int
     default: 0
     description: |
       Each bit in the property denotes a pin number. This shows the pins which
       support interrupt in portd
+
+  porta-special-pins-1:
+    type: array
+    default: [0, 0]
+    description: |
+      Each bit in this number denotes a pin number. These pins are derived from datasheet
+      by listing down the eic line and port-pin mapping.
+      The eic line mapping to the pin number requires a manipulation with an offset.
+
+  "#porta-special-pins-1-cells":
+    type: int
+    default: 2
+    description: |
+      Number of cells in portb-special-pins-1 property
 
   portb-special-pins-1:
     type: array
@@ -78,6 +99,19 @@ properties:
       The eic line mapping to the pin number requires a manipulation with an offset.
 
   "#portc-special-pins-1-cells":
+    type: int
+    default: 2
+    description: |
+      Number of cells in portc-special-pins-1 property
+
+  portc-special-pins-2:
+    type: array
+    default: [0, 0]
+    description: |
+      Each bit in this number denotes a pin number. These pins are derived from datasheet
+      The eic line mapping to the pin number requires a manipulation with an offset.
+
+  "#portc-special-pins-2-cells":
     type: int
     default: 2
     description: |
