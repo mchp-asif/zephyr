@@ -57,6 +57,7 @@ properties:
   channels:
     type: int
     required: true
+    default: 1
     description: |
       This specifies the maximum number of channels available for the peripheral instance.
 
